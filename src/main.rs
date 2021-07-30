@@ -5,7 +5,6 @@ use serde_json::{json, Value};
 use std::convert::Infallible;
 use std::net::SocketAddr;
 use tower::service_fn;
-//use tower_http::services::ServeFile;
 
 async fn root() -> &'static str {
     "Hello, World!"
@@ -49,13 +48,6 @@ async fn main() {
         .route("/404", get(not_found))
         .route("/html", get(html))
         .route("/json", get(json))
-        //.route(
-        //    "/static/Cargo.toml",
-        //    service::get({
-        //        let svc = ServeFile::new("Cargo.toml");
-        //        svc.oneshot(Request::new(Body::empty()))
-        //    }),
-        //)
         .route(
             "/root",
             service::any(service_fn(|_: Request<Body>| async {
@@ -66,7 +58,6 @@ async fn main() {
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     hyper::Server::bind(&addr)
-        //.serve(app.into_make_service())
         .serve(app.into_make_service())
         .await
         .unwrap();
