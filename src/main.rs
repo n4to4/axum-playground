@@ -45,7 +45,8 @@ async fn main() {
         .route("/string", get(string))
         .route("/404", get(not_found))
         .route("/html", get(html))
-        .route("/json", get(json));
+        .route("/json", get(json))
+        .route("/hc", get(|| async { "Ok" }));
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     hyper::Server::bind(&addr)
